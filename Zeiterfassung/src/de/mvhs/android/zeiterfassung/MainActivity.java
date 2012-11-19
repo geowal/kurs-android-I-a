@@ -2,9 +2,9 @@ package de.mvhs.android.zeiterfassung;
 
 import java.util.Date;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -73,5 +73,28 @@ public class MainActivity extends Activity {
     		
     		// Ausgabe der Zeit
     		txtEndzeit.setText(jetzt.toString());
+    		
+    		/* 
+    		 * Schueler Loesung
+    		*/ 
+    		//Speichern der Zeit in der Datenbank
+    		DBHelper helper = new DBHelper(this);
+    		SQLiteDatabase db = helper.getWritableDatabase();
+    		
+    		// Endzeit speichern
+    		ZeitTabelle.AktualisiereEndzeit(db, ZeitTabelle.SpeichereStartzeit(db, jetzt), jetzt);
+    		
+    		//Resourcen wieder schliessen
+    		db.close();
+    		helper.close();
+    		
+    		/*
+    		 * Leherer Loesung
+    		*/ 
+    		
+    		
+    		
+    		
+    		
     }
 }

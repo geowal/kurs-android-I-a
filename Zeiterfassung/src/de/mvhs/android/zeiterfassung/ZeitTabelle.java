@@ -51,7 +51,7 @@ public class ZeitTabelle {
 	 * Datum in ISO Format bringen
 	 */
 	public static final SimpleDateFormat _DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-	
+
 	/**
 	 * Erzeugen der neuen Tabelle
 	 * @param db Datenbank-Referenz
@@ -85,7 +85,6 @@ public class ZeitTabelle {
 		/*
 		 * Startzeit 		= Key
 		 * formatierte Zeit = Wert
-		 * 
 		 * mit put wird das key-value Paar erzeugt
 		 */
 		values.put(STARTZEIT, _DF.format(startZeit));
@@ -98,17 +97,41 @@ public class ZeitTabelle {
 	}
 	
 	/**
+	 * Schueler Loesung
+	 * 
 	 * Aktualisieren der Enzeit
 	 * @param db Referenz auf die Datenbank
 	 * @param endZeit Endzeit
 	 * @param id ID des zu aktualisirenden Datensatzes
 	 * @return Anzahl der aktualisierten Datensaetze
 	 */
+	
 	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
 		int returnValue = 0;
+		ContentValues values = new ContentValues();
+		
+		values.put(ENDZEIT, _DF.format(endZeit));
+		returnValue = db.update(TABELLENNAME, values, ID + " = ?", new String[] { Long.toString(id)} );
 		
 		return returnValue;
+	} 
+	
+	/**
+	 * Lehrer Loesung
+	 * 
+	 * Aktualisieren der Enzeit
+	 * @param db Referenz auf die Datenbank
+	 * @param id ID des zu aktualisirenden Datensatzes
+	 * @param endZeit Endzeit
+	 * @return Anzahl der aktualisierten Datensaetze
+	 */
+	/*
+	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
+		int returnValue = 0;
+				
+		return returnValue;
 	}
+	*/
 	
 	/**
 	 * Suche einen Datensatz mit leeren Endzeit
