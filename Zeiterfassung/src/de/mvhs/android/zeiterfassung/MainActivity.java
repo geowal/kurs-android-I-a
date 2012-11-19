@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // Initialisierung der Buttons für die Listener-Zuweisung
+        // Initialisierung der Buttons fuer die Listener-Zuweisung
         Button cmdStart = (Button)findViewById(R.id.starten);
         Button cmdEnde = (Button)findViewById(R.id.beenden);
         
@@ -50,12 +50,14 @@ public class MainActivity extends Activity {
     		txtStartzeit.setText(jetzt.toString());
     		
     		// Speichern der zeit in der Datenbank
+    		// Der Kontext this muss uebergeben werden, da die Datenbank in den Speicher der app gespeichert wird
     		DBHelper helper = new DBHelper(this);
     		SQLiteDatabase db = helper.getWritableDatabase();
     		
     		ZeitTabelle.SpeichereStartzeit(db, jetzt);
     		
-    		// Ressourcen schließen
+    		// Ressourcen schliessen
+    		// In java muss man Streams explizit Oeffnen und Schliesen, ansonsten gibt es Exceptions, die das Programm langsam machen
     		db.close();
     		helper.close();
     }

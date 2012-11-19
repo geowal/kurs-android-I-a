@@ -8,12 +8,26 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class ZeitTabelle {
 	// Konstanten
+	/*
+	 final static bedeutet dass die Konstante schon zur Kompelierzeit erzeugt wird (muss also zur Laufzeit nicht mehr erstellt werden)
+	 Dadurch ist sie viel schneller verfuegbar
+	 _konstantenname (mit unterstrich) weil diese konstante privat ist und nur hier verfuegbar ist.
+	 Zeit wird als ISO Format (Text) in der Datenbank gespeichert
+	 2012-11-12T 08:15:30
+	 Text ISO ist gut lesbar, und gut rechenbar (zb: wenn die Zeitdifferenz (minus) ausgerechnet werden muss)
+	 Wir brauchen:
+	 Bei Druecken Start: Neuer Datensatz mit Startzeit
+	 Bei Druecken Beenden: Aktualisieren mit Endzeit, und zwar:
+	 Hausaufgabe: 
+	 den letzten Datensatz mit Enddatum suchen und								
+	*/
 	private final static String _CREATE_TABLE =
 			"CREATE TABLE zeit (_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
 			+ "startzeit TEXT NOT NULL , endzeit TEXT)";
 	
 	private final static String _DROP_TABLE = "DROP TABLE IF EXISTS zeit";
 	
+	// fuer die Feldnamen der Tabelle
 	/**
 	 * Tabellenname
 	 */
@@ -23,19 +37,20 @@ public class ZeitTabelle {
 	 */
 	public static final String ID = "_id";
 	/**
-	 * Spalte f�r die Startzeit
+	 * Spalte fuer die Startzeit
 	 */
 	public static final String STARTZEIT = "startzeit";
 	/**
-	 * Spalte f�r die Endzeit
+	 * Spalte fuer die Endzeit
 	 */
 	public static final String ENDZEIT = "endzeit";
 	
-	/**
-	 * Konvertierung f�r das Datum
+	/*
+	 * Konvertierung fuer das Datum in einen String
+	 * Konstante angelegt, da wir den Konverter noch oefters brauchen
+	 * Datum in ISO Format bringen
 	 */
-	public static final SimpleDateFormat _DF =
-			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+	public static final SimpleDateFormat _DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 	
 	/**
 	 * Erzeugen der neuen Tabelle
@@ -46,25 +61,37 @@ public class ZeitTabelle {
 	}
 	
 	/**
-	 * L�schen der Tabelle
+	 * Loeschen der Tabelle
 	 * @param db Datenbak-Referenz
 	 */
 	public static void DropTable(SQLiteDatabase db){
+		//loeschen der Datenbank
 		db.execSQL(_DROP_TABLE);
 	}
 	
 	/**
-	 * Speichern der Startzeit als ein neuer Datensatz
-	 * @param startZeit Startzeit
+	 * Speichern der Startzeit als ein neuen Datensatz
 	 * @param db Referenz auf die Datenbank
+	 * @param startZeit Startzeit
 	 * @return ID des neuen Datensatzes
 	 */
 	public static long SpeichereStartzeit(SQLiteDatabase db, Date startZeit){
+		// hier Rückgabe der ID -1, heist nichts gefunden, da die ID«s immer mit 1 anfangen
 		long returnValue = -1;
 		
+		//Erzeugen von Key-Value Paaren (Schluessel und Wert) 
 		ContentValues values = new ContentValues();
+		
+		/*
+		 * Startzeit 		= Key
+		 * formatierte Zeit = Wert
+		 * 
+		 * mit put wird das key-value Paar erzeugt
+		 */
 		values.put(STARTZEIT, _DF.format(startZeit));
 		
+		// mit insert wird das Key-Value Paar in die Datenbank geschrieben
+		// wenn das Key-Value Paar leer ist, dann brauchen wir den Hack mit null
 		returnValue = db.insert(TABELLENNAME, null, values);
 		
 		return returnValue;
@@ -75,7 +102,7 @@ public class ZeitTabelle {
 	 * @param db Referenz auf die Datenbank
 	 * @param endZeit Endzeit
 	 * @param id ID des zu aktualisirenden Datensatzes
-	 * @return Anzahl der aktualisierten Datens�tze
+	 * @return Anzahl der aktualisierten Datensaetze
 	 */
 	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
 		int returnValue = 0;
