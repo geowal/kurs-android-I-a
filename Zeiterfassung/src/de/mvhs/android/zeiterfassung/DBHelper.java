@@ -10,6 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	private final static String _DB_NAME = "zeiterfassung1a.db";
 	private final static int _DB_VERSION = 1;
 	
+	// Datenbanken ändern/anpassen falls strukturelle Aenderungen an der Dantenbank vorgenommen werden.
 	public DBHelper(Context context) {
 		super(context, _DB_NAME, null, _DB_VERSION);
 	}
