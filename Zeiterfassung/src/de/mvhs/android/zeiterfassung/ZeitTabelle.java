@@ -23,16 +23,16 @@ public class ZeitTabelle {
 	 */
 	public static final String ID = "_id";
 	/**
-	 * Spalte fŸr die Startzeit
+	 * Spalte fï¿½r die Startzeit
 	 */
 	public static final String STARTZEIT = "startzeit";
 	/**
-	 * Spalte fŸr die Endzeit
+	 * Spalte fï¿½r die Endzeit
 	 */
 	public static final String ENDZEIT = "endzeit";
 	
 	/**
-	 * Konvertierung fŸr das Datum
+	 * Konvertierung fï¿½r das Datum
 	 */
 	public static final SimpleDateFormat _DF =
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -46,7 +46,7 @@ public class ZeitTabelle {
 	}
 	
 	/**
-	 * Lšschen der Tabelle
+	 * Lï¿½schen der Tabelle
 	 * @param db Datenbak-Referenz
 	 */
 	public static void DropTable(SQLiteDatabase db){
@@ -56,6 +56,7 @@ public class ZeitTabelle {
 	/**
 	 * Speichern der Startzeit als ein neuer Datensatz
 	 * @param startZeit Startzeit
+	 * @param db Referenz auf die Datenbank
 	 * @return ID des neuen Datensatzes
 	 */
 	public static long SpeichereStartzeit(SQLiteDatabase db, Date startZeit){
@@ -71,9 +72,10 @@ public class ZeitTabelle {
 	
 	/**
 	 * Aktualisieren der Enzeit
+	 * @param db Referenz auf die Datenbank
 	 * @param endZeit Endzeit
 	 * @param id ID des zu aktualisirenden Datensatzes
-	 * @return Anzahl der aktualisierten DatensŠtze
+	 * @return Anzahl der aktualisierten Datensï¿½tze
 	 */
 	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
 		int returnValue = 0;
@@ -83,6 +85,7 @@ public class ZeitTabelle {
 	
 	/**
 	 * Suche einen Datensatz mit leeren Endzeit
+	 * @param Referenz auf die Datenbank
 	 * @return ID des Datensatzes
 	 */
 	public static long SucheLeereId(SQLiteDatabase db){
