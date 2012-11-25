@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,7 +8,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.net.ParseException;
 
 public class ZeitTabelle {
 	// Konstanten
@@ -107,29 +107,8 @@ public class ZeitTabelle {
 		return returnValue;
 	}
 	
+	
 	/**
-	 * Schueler Loesung
-	 * 
-	 * Aktualisieren der Enzeit
-	 * @param db Referenz auf die Datenbank
-	 * @param endZeit Endzeit
-	 * @param id ID des zu aktualisirenden Datensatzes
-	 * @return Anzahl der aktualisierten Datensaetze
-	 */
-	/*
-	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
-		int returnValue = 0;
-		ContentValues values = new ContentValues();
-		
-		values.put(ENDZEIT, _DF.format(endZeit));
-		returnValue = db.update(TABELLENNAME, values, ID + " = ?", new String[] { Long.toString(id)} );
-		
-		return returnValue;
-	} 
-	*/
-	/**
-	 * Lehrer Loesung
-	 * 
 	 * Aktualisieren der Enzeit
 	 * @param db Referenz auf die Datenbank
 	 * @param id ID des zu aktualisirenden Datensatzes
@@ -140,7 +119,8 @@ public class ZeitTabelle {
 	public static int AktualisiereEndzeit(SQLiteDatabase db, long id, Date endZeit){
 		int returnValue = 0;
 		
-		// Vorkompilierte SQL Abfrage erzeugen
+		// Vorkompilierte SQL Abfrage erzeugen (SQL Statement)
+		// Konstante wird übergeben
 		SQLiteStatement updateStatement = db.compileStatement(_SQL_UPDATE_ENDTIME);
 
 		// Parameter an das SQL Statement binden und uebergeben
@@ -197,7 +177,7 @@ public class ZeitTabelle {
 	 * @throws java.text.ParseException 
 	 */
 	
-	public static Date GebeStartzeitAus(SQLiteDatabase db, long id) throws java.text.ParseException {
+	public static Date GebeStartzeitAus(SQLiteDatabase db, long id) {
 		Date returnValue = null;
 		
 		/*
@@ -226,7 +206,7 @@ public class ZeitTabelle {
 			if (startzeit != null && !startzeit.isEmpty()) {
 				
 				/*
-				 *  Konverierung des Strings in ein Datums Objekt
+				 *  Konvertierung des Strings in ein Datums Objekt
 				 *  try-catch ist beim Parsen der Daten auf einen anderen Typ immer nötig
 				 */
 				try {
@@ -239,11 +219,20 @@ public class ZeitTabelle {
 		return returnValue;
 	}
 	
-	
-	
-	
-	//TESTeintrag 20121124
-	
+	/**
+	 *  Mehtode für die ListeActivity die die Daten liefert 
+	 */
+	public static Cursor LiefereAlleDaten(SQLiteDatabase db) {
+		
+		return db.query(
+				TABELLENNAME,				// Tabellenname
+				null,						// alle anderen Werte werden auf null gesetzt, Wir 
+				null,						// benötigen diese nicht
+				null,
+				null,
+				null,
+				STARTZEIT + " DESC");		// Order by nach Startzeit in Absteigender Richtung
+	}
 	
 	
 	
